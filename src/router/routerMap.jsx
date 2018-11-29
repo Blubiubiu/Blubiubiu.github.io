@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, HashRouter, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, HashRouter } from 'react-router-dom';
 
 // import App from '../containers/App';
 import Home from '../containers/Home';
@@ -15,12 +15,12 @@ export default class RouterMap extends Component {
 		return (
 			<Router>
 				<div>
-					<Route exact path="/" component={Home} />
-					{/* <Switch> */}
-						<Route exact path="/list" component={List} />
-						<Route exact path="/detail/:id" component={Detail} />
-						{/* <Route component={NotFound} /> */}
-					{/* </Switch> */}
+					<Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/list" component={List} />
+                        <Route exact path="/detail/:id" component={Detail} />
+                        <Route component={ NotFound } />
+                    </Switch>
 				</div>
 			</Router>
 		);
