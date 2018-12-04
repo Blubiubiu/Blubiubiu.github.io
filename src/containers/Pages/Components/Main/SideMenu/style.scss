@@ -1,0 +1,10 @@
+.admin__sidemenu__contanier__item {
+    .is-active {
+        a {
+            color: $active-color;
+        }
+    }
+    a {
+        color: $dark-color;
+    }
+}

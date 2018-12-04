@@ -1,24 +1,37 @@
+/**
+ * @desc APP
+ * @author lsy
+ * @todo xxx
+ */
+
+
 import React, { Component } from 'react';
-import './style.css';
+import 'element-theme-default';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Header from '../../components/Header'
-import RouterMap from '../../router/routerMap'
+import Main from '@/containers/Pages/Components/Main';
+import Login from '@/containers/Pages/Login'
+import RouterMap from '@/router';
 
+import '@/assets/css/common.scss'
 
 class App extends Component {
 	render() {
-		return (
-			<div className="App">
-				<Header/>
+		const MainRouter = (
+			<Main>
 				<RouterMap/>
-			</div>
-		)
-	}
-	componentDidMount () {
-		console.log(1, this)
-	}
-	componentDidUpdate () {
-		console.log(2, this)
+			</Main>
+		) 
+		return (
+			<Router>
+				<div className="App">
+					<Switch>
+						<Route path="/login" component={Login}/>
+						<Route path="/" render={ props => MainRouter}/>
+					</Switch>
+				</div>
+			</Router>
+		);
 	}
 }
 
