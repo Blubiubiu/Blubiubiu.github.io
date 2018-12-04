@@ -5,90 +5,108 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'element-react';
 import { inject, observer } from 'mobx-react';
 
 import './style.scss';
 
-@inject("router")
+@inject('router')
 @observer
-
 class SideMenu extends Component {
-	
+	constructor (props) {
+		super(props)
+		this.state = {
+			defaultActive: "/"
+		}
+	}
 	render() {
 		return (
 			<Layout.Row className="admin__sidemenu__contanier">
 				<Layout.Col className="admin__sidemenu__contanier__item">
 					<Menu
-						defaultActive="2"
+						defaultActive={this.state.defaultActive}
 						className="admin__sidemenu__contaniner__menu"
 						theme="dark"
-						onOpen={this.onOpen}
-						onClose={this.onClose}
-					>   
-						{	
-							this.recursion(this.props.router.routerArr)
-						}
-						{/* <Menu.SubMenu
-							index="1"
-							title={
-								<span>
-									<i className="el-icon-message" />导航一
-								</span>
-							}
-						>
-							<Menu.Item index="1-1">选项1</Menu.Item>
-							<Menu.Item index="1-2">选项2</Menu.Item>
-						</Menu.SubMenu>
-						<Menu.SubMenu index="2" title={
-								<span>
-									<i className="el-icon-menu" />导航二1
-								</span>
-							}>
-							<Menu.SubMenu index="4" title={
-								<span>
-									<i className="el-icon-menu" />导航二2
-								</span>
-							} style={{paddingLeft: '33px'}}>
-								<Menu.Item index="5">
-									<i className="el-icon-setting" />导航二3
-								</Menu.Item>
-							</Menu.SubMenu>
-						</Menu.SubMenu>
-						<Menu.Item index="3">
-							<i className="el-icon-setting" />导航三
-						</Menu.Item> */}
+						onSelect={this.onSelect.bind(this)}
+					>
+						{this.recursion(this.props.router.routerArr)}
 					</Menu>
 				</Layout.Col>
 			</Layout.Row>
 		);
 	}
-	componentWillMount () {
-		this.props.router.routerArr.forEach(ele => {
-			
+	componentWillMount() {
+		//设置侧边栏默认选中
+		this.setState({
+			defaultActive: window.location.hash.slice(1)
 		})
+		this.props.router.setRouterPath(window.location.hash.slice(1))
+		this.props.router.routerName = this.findNameByPath(this.props.router.routerArr, this.props.router.routerPath);
 	}
-	recursion(arr) {
-		return arr.map(item => {
-			if (item.children && item.children.length) {
-				return (<Menu.SubMenu
-					index={item.name}
-					key={item.name}
-					title={
-						<span>
-							<i className={item.type} />{item.name}
-						</span>
+	/**
+	 * @desc 选中menuItem
+	 * @param {string} [val] - 选中path
+	 */
+	onSelect = (val) => {
+		this.props.router.setRouterPath(val)
+		this.props.router.routerName = this.findNameByPath(this.props.router.routerArr, this.props.router.routerPath);
+	}
+	/**
+	 * @desc 根据path返回name
+	 * @param {array} [arr] - router数据 
+	 * @param {string} [path] - 选中path 
+	 */
+	findNameByPath(arr, path) {
+		let NameArr = [],
+			index = 0,
+			hasParentId = (function loop(arr, index) {
+				return arr.some((item) => {
+					if (item.path === path) {
+						NameArr = NameArr.slice(0, index);
+						NameArr.push(item)
+						return true;
+					} else if (Array.isArray(item.children)) {
+						NameArr[index] = item;
+						return loop(item.children, index + 1);
+					} else {
+						return false;
 					}
+				});
+			})(arr, index);
+		return hasParentId ? NameArr : [];
+	}
+	//sidemenu
+	recursion(arr) {
+		return arr.map((item) => {
+			if (item.children && item.children.length) {
+				return (
+					<Menu.SubMenu
+						index={item.path}
+						key={item.name}
+						title={
+							<span>
+								<i className={item.type} />
+								{item.name}
+							</span>
+						}
 					>
-					{this.recursion(item.children)}
-				</Menu.SubMenu>)
-			} else if (!item.hideInMenu){
-				return (<Link to={item.path} key={item.name}><Menu.Item index={item.name}>
-					<i className={item.type} />{item.name}
-				</Menu.Item></Link>)
+						<div className="admin__menu--padding">
+							{this.recursion(item.children)}
+						</div>
+					</Menu.SubMenu>
+				);
+			} else if (!item.hideInMenu) {
+				return (
+					<Link to={item.path} key={item.name}>
+						<Menu.Item index={item.path}>
+							<i className={item.type} />
+							{item.name}
+						</Menu.Item>
+					</Link>
+				);
 			}
-		})
+		});
 	}
 }
-export default SideMenu
+export default SideMenu;

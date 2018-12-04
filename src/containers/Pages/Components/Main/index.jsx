@@ -5,9 +5,10 @@
  */
 
 import React, { Component } from 'react';
-import { Layout, Breadcrumb } from 'element-react';
+import { Layout } from 'element-react';
 
 import SideMenu from './SideMenu';
+import BreadCrumb from './BreadCrumb'
 
 import './style.scss';
 
@@ -20,12 +21,7 @@ class Main extends Component {
 				</Layout.Col>
 				<Layout.Col style={{width: '100%'}}>
 					<Layout.Row className="admin__headerNav">
-						<Breadcrumb separator="/">
-							<Breadcrumb.Item>首页</Breadcrumb.Item>
-							<Breadcrumb.Item>活动管理</Breadcrumb.Item>
-							<Breadcrumb.Item>活动列表</Breadcrumb.Item>
-							<Breadcrumb.Item>活动详情</Breadcrumb.Item>
-						</Breadcrumb>
+					<BreadCrumb />
 					</Layout.Row>
 					{this.props.children}
 				</Layout.Col>

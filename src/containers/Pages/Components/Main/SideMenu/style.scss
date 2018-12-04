@@ -8,3 +8,13 @@
         color: $dark-color;
     }
 }
+.admin__menu--padding {
+    .el-submenu__title {
+        padding-left: 45px;
+    }
+    .admin__menu--padding {
+        .el-menu-item {
+            padding-left: 80px;
+        }
+    }
+}

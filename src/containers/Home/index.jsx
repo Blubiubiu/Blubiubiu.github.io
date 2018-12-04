@@ -23,6 +23,9 @@ class Home extends Component {
 	change = () => {
 		this.props.global.setId()
 	}
+	componentDidMount () {
+		console.log(this.props)
+	}
 }
 
 
