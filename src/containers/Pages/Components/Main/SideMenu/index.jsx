@@ -28,7 +28,6 @@ class SideMenu extends Component {
 						defaultActive={this.state.defaultActive}
 						className="admin__sidemenu__contaniner__menu"
 						theme="dark"
-						onSelect={this.onSelect.bind(this)}
 					>
 						{this.recursion(this.props.router.routerArr)}
 					</Menu>
@@ -41,45 +40,12 @@ class SideMenu extends Component {
 		this.setState({
 			defaultActive: window.location.hash.slice(1)
 		})
-		this.props.router.setRouterPath(window.location.hash.slice(1))
-		this.props.router.routerName = this.findNameByPath(this.props.router.routerArr, this.props.router.routerPath);
-	}
-	/**
-	 * @desc 选中menuItem
-	 * @param {string} [val] - 选中path
-	 */
-	onSelect = (val) => {
-		this.props.router.setRouterPath(val)
-		this.props.router.routerName = this.findNameByPath(this.props.router.routerArr, this.props.router.routerPath);
-	}
-	/**
-	 * @desc 根据path返回name
-	 * @param {array} [arr] - router数据 
-	 * @param {string} [path] - 选中path 
-	 */
-	findNameByPath(arr, path) {
-		let NameArr = [],
-			index = 0,
-			hasParentId = (function loop(arr, index) {
-				return arr.some((item) => {
-					if (item.path === path) {
-						NameArr = NameArr.slice(0, index);
-						NameArr.push(item)
-						return true;
-					} else if (Array.isArray(item.children)) {
-						NameArr[index] = item;
-						return loop(item.children, index + 1);
-					} else {
-						return false;
-					}
-				});
-			})(arr, index);
-		return hasParentId ? NameArr : [];
+		
 	}
 	//sidemenu
 	recursion(arr) {
 		return arr.map((item) => {
-			if (item.children && item.children.length) {
+			if (item.children && item.children.length && !item.hideChildren) {
 				return (
 					<Menu.SubMenu
 						index={item.path}

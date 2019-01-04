@@ -21,8 +21,19 @@ a {
     min-width: 1200px;
     height: 100%;
 }
+.el-checkbox__label {
+    padding-left: 0;
+}
 .admin__sidemenu__contanier,
 .admin__sidemenu__contanier__item,
 .admin__sidemenu__contaniner__menu {
     height: 100%;
+}
+.admin__pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+.admin__search {
+    width: 360px;
+    margin-bottom: 20px;
 }

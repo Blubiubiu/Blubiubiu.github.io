@@ -16,14 +16,16 @@ class Main extends Component {
 	render() {
 		return (
 			<Layout.Row className="admin__main__container">
-				<Layout.Col style={{width: '300px', height: '100%'}}>
+				<Layout.Col style={{flex: '0 0 300px', height: '100%'}}>
 					<SideMenu />
 				</Layout.Col>
-				<Layout.Col style={{width: '100%'}}>
+				<Layout.Col style={{flex: 'auto', overflow: 'hidden'}}>
 					<Layout.Row className="admin__headerNav">
 					<BreadCrumb />
 					</Layout.Row>
-					{this.props.children}
+					<div style={{padding: '20px'}}>
+						{this.props.children}
+					</div>
 				</Layout.Col>
 			</Layout.Row>
 		);

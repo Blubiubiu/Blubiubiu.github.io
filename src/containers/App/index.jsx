@@ -25,13 +25,19 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
+				{
+					console.log(this.props)
+				}
 					<Switch>
 						<Route path="/login" component={Login}/>
-						<Route path="/" render={ props => MainRouter}/>
+						<Route path="/" render={() => MainRouter}/>
 					</Switch>
 				</div>
 			</Router>
 		);
+	}
+	componentDidMount () {
+		
 	}
 }
 
