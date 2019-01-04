@@ -1,7 +1,5 @@
 /**
  * @desc 侧边导航栏
- * @author lsy
- * @todo xxx
  */
 
 import React, { Component } from 'react';
@@ -14,33 +12,21 @@ import './style.scss';
 @inject('router')
 @observer
 class SideMenu extends Component {
-	constructor (props) {
-		super(props)
-		this.state = {
-			defaultActive: "/"
-		}
-	}
 	render() {
 		return (
 			<Layout.Row className="admin__sidemenu__contanier">
 				<Layout.Col className="admin__sidemenu__contanier__item">
 					<Menu
-						defaultActive={this.state.defaultActive}
+						defaultActive={this.props.router.defaultActive}
 						className="admin__sidemenu__contaniner__menu"
 						theme="dark"
 					>
+						<div className="admin__sidemenu__contaniner__menu__logo">logo</div>
 						{this.recursion(this.props.router.routerArr)}
 					</Menu>
 				</Layout.Col>
 			</Layout.Row>
 		);
-	}
-	componentWillMount() {
-		//设置侧边栏默认选中
-		this.setState({
-			defaultActive: window.location.hash.slice(1)
-		})
-		
 	}
 	//sidemenu
 	recursion(arr) {
@@ -57,9 +43,7 @@ class SideMenu extends Component {
 							</span>
 						}
 					>
-						<div className="admin__menu--padding">
-							{this.recursion(item.children)}
-						</div>
+						<div className="admin__menu--padding">{this.recursion(item.children)}</div>
 					</Menu.SubMenu>
 				);
 			} else if (!item.hideInMenu) {

@@ -1,10 +1,18 @@
+/**
+ * @desc 用户组
+ * @author lsy
+ */
+
 import React, { Component } from 'react';
 import { Input, Table, Button, Pagination } from 'element-react';
+
+import AddUser from './AddUser';
 
 export default class User extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			addmodal: false,
 			columns: [
 				{
 					type: 'index',
@@ -54,8 +62,8 @@ export default class User extends Component {
 				}
 			],
 			data: [
-				{   
-                    id: "1",
+				{
+					id: '1',
 					name: 'Meter',
 					access: '管理员',
 					sex: '女',
@@ -63,7 +71,7 @@ export default class User extends Component {
 					address: '北京市海淀区'
 				},
 				{
-                    id: "2",
+					id: '2',
 					name: 'Jack',
 					access: '管理员',
 					sex: '男',
@@ -71,7 +79,7 @@ export default class User extends Component {
 					address: '上海市普陀区'
 				},
 				{
-                    id: "3",
+					id: '3',
 					name: 'Anty',
 					access: '管理员',
 					sex: '男',
@@ -79,36 +87,44 @@ export default class User extends Component {
 					address: '西安市未央区'
 				},
 				{
-                    id: "4",
+					id: '4',
 					name: 'Kimie',
-					access: '用户',
+					access: 'Vip会员',
 					sex: '女',
 					age: '24',
 					address: '安徽市'
 				},
 				{
-                    id: "5",
+					id: '5',
 					name: 'Blues',
-					access: '用户',
+					access: '普通用户',
 					sex: '男',
 					age: '24',
 					address: '天津市高薪区'
 				},
 				{
-                    id: "6",
+					id: '6',
 					name: 'Sun',
-					access: '用户',
+					access: '普通用户',
 					sex: '男',
 					age: '24',
 					address: '武汉市'
 				},
 				{
-                    id: "7",
+					id: '7',
 					name: 'Lebur',
-					access: '用户',
+					access: '普通用户',
 					sex: '男',
 					age: '24',
 					address: '重庆市市区'
+				},
+				{
+					id: '8',
+					name: 'rick',
+					access: '普通用户',
+					sex: '男',
+					age: '27',
+					address: '西安市莲湖区'
 				}
 			]
 		};
@@ -123,20 +139,37 @@ export default class User extends Component {
 	render() {
 		return (
 			<div>
-				<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Input
-                        className="admin__search"
-                        placeholder="请输入用户名"
-                        append={
-                            <Button type="primary" icon="search">
-                                搜索
-                            </Button>
-                        }
-                    />
-                    <Button style={{marginBottom: '20px'}} type="primary" onClick={() => {
-                        this.props.history.push('/UserInfo')
-                    }}>新建用户</Button>
-                </div>
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+					<Input
+						className="admin__search"
+						placeholder="请输入用户名"
+						append={
+							<Button type="primary" icon="search">
+								搜索
+							</Button>
+						}
+					/>
+					<div>
+						<Button
+							style={{ marginBottom: '20px' }}
+							type="primary"
+							onClick={() => {
+								this.changeModalStatus(true);
+							}}
+						>
+							添加用户
+						</Button>
+						<Button
+							style={{ marginBottom: '20px' }}
+							type="primary"
+							onClick={() => {
+								this.props.history.push('/CreateUser');
+							}}
+						>
+							新建用户
+						</Button>
+					</div>
+				</div>
 				<Table
 					style={{ width: '100%' }}
 					columns={this.state.columns}
@@ -152,7 +185,16 @@ export default class User extends Component {
 				<div className="admin__pagination">
 					<Pagination layout="total, prev, pager, next" total={1000} />
 				</div>
+				{/* 添加用户 */}
+				<AddUser
+					dialogVisible={this.state.addmodal}
+					data={this.state.data}
+					changeModalStatus={this.changeModalStatus.bind(this)}
+				/>
 			</div>
 		);
+	}
+	changeModalStatus(val) {
+		this.setState({ addmodal: val });
 	}
 }
